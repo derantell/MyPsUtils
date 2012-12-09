@@ -55,3 +55,22 @@ Function Remove-Regions {
         }
     }
 }
+
+
+<#
+.SYNOPSIS
+.
+.PARAMETER Filename
+.
+.DESCRIPTION 
+. 
+.EXAMPLE
+.
+.LINK 
+Get-Alias
+#>
+Function Get-AliasFor {
+    Param( $Command )
+
+    Get-Alias | ?{$_.Definition -like $Command}
+}
