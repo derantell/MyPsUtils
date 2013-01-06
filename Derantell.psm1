@@ -35,8 +35,7 @@ Function Remove-Regions {
     )        
     
     BEGIN {
-        $regex = New-Object System.Text.Regularexpressions.Regex(
-            "\s*(?:#(?:end)?region|///\s*<([^/\s>]+).*?>[\s/]*?</\1>).*")
+        $regex = [regex]"\s*(?:#(?:end)?region|///\s*<([^/\s>]+).*?>[\s/]*?</\1>).*"
     }
     
     PROCESS {    
@@ -44,7 +43,8 @@ Function Remove-Regions {
             $filepath = resolve-path $file
             try {
                 if ($PSCmdlet.ShouldProcess($file, "Remove regions")) {
-                    $regex.Replace([System.IO.File]::ReadAllText($filepath),"")`
+                    $regex.Replace([System.IO.File]::ReadAllText($filepath),
+                        {param($m) if($m.Value.Contains('endregion')){"`n`n"} else {''}}) `
                         | out-file $file -force -encoding $Encoding
                 }
             } catch {
