@@ -44,7 +44,7 @@ Function Remove-Regions {
             try {
                 if ($PSCmdlet.ShouldProcess($file, "Remove regions")) {
                     $regex.Replace([System.IO.File]::ReadAllText($filepath),
-                        {param($m) if($m.Value.Contains('endregion')){"`n`n"} else {''}}) `
+                        {param($m) if($m.Value.Contains('endregion')){"`r`n`r`n"} else {''}}) `
                         | out-file $file -force -encoding $Encoding
                 }
             } catch {
