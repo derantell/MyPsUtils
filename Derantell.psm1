@@ -43,12 +43,12 @@ Function Remove-Regions {
             $filepath = resolve-path $file
             try {
                 if ($PSCmdlet.ShouldProcess($file, "Remove regions")) {
-                    $regex.Replace([System.IO.File]::ReadAllText($filepath),
+                    $regex.Replace([System.IO.File]::ReadAllText($filepath, [system.text.encoding]::$Encoding),
                         {param($m) if($m.Value.Contains('endregion')){"`r`n`r`n"} else {''}}) `
                         | out-file $file -force -encoding $Encoding
                 }
             } catch {
-                write-warning "Failed to sanitize $filepath: $_"
+                write-warning "Failed to sanitize ${filepath}: $_"
             } finally {
                 write-output $file
             } 
